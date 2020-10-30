@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 
-  <meta name="description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。     行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，">
+  <meta name="description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。    行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4">
 <meta property="og:type" content="article">
 <meta property="og:title" content="电路划分1">
 <meta property="og:url" content="http://example.com/2020/10/30/%E7%94%B5%E8%B7%AF%E5%88%92%E5%88%861/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。     行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，">
+<meta property="og:description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。    行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7diyoc5vj20bq05qdg6.jpg">
 <meta property="article:published_time" content="2020-10-30T02:11:32.000Z">
-<meta property="article:modified_time" content="2020-10-30T07:24:19.467Z">
+<meta property="article:modified_time" content="2020-10-30T07:26:44.189Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="电路划分调研">
 <meta name="twitter:card" content="summary">
@@ -241,7 +241,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-10-30 10:11:32 / Modified: 15:24:19" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
+      <time title="Created: 2020-10-30 10:11:32 / Modified: 15:26:44" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
     </span>
 
   
@@ -257,10 +257,8 @@
         <h2 id="iverilog概述"><a href="#iverilog概述" class="headerlink" title="iverilog概述"></a>iverilog概述</h2><ul>
 <li><p> 在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。  </p>
 </li>
-<li><p> 行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4个数字索引计数器和64k私有位寄存器。有VVP解析器实例化的所有线程形成线程列表。其通常用来驱动.functor</p>
-</li>
-<li><p>仿真器的架构为：  </p>
-<p><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg" alt="iveilog"> </p>
+<li><p>行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4个数字索引计数器和64k私有位寄存器。有VVP解析器实例化的所有线程形成线程列表。其通常用来驱动.functor</p>
+<p>  <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg" alt="iveilog"> </p>
 </li>
 </ul>
 <h2 id="partitioner"><a href="#partitioner" class="headerlink" title="partitioner"></a>partitioner</h2><ul>
