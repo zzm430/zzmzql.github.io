@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 
-  <meta name="description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。    行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4">
+  <meta name="description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。     行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="电路划分1">
 <meta property="og:url" content="http://example.com/2020/10/30/%E7%94%B5%E8%B7%AF%E5%88%92%E5%88%861/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。    行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4">
+<meta property="og:description" content="iverilog概述  在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。     行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7diyoc5vj20bq05qdg6.jpg">
 <meta property="article:published_time" content="2020-10-30T02:11:32.000Z">
-<meta property="article:modified_time" content="2020-10-30T07:21:43.638Z">
+<meta property="article:modified_time" content="2020-10-30T07:24:19.467Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="电路划分调研">
 <meta name="twitter:card" content="summary">
@@ -241,7 +241,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-10-30 10:11:32 / Modified: 15:21:43" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
+      <time title="Created: 2020-10-30 10:11:32 / Modified: 15:24:19" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
     </span>
 
   
@@ -255,16 +255,20 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="iverilog概述"><a href="#iverilog概述" class="headerlink" title="iverilog概述"></a>iverilog概述</h2><ul>
-<li> 在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。  </li>
-<li> 行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4个数字索引计数器和64k私有位寄存器。有VVP解析器实例化的所有线程形成线程列表。其通常用来驱动.functor</li>
-<li>仿真器的架构为：<br><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg" alt="iveilog"> </li>
+<li><p> 在iverilog编译器中，将veilog转换为.functor语句和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。  </p>
+</li>
+<li><p> 行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，包括程序计数器，4个数字索引计数器和64k私有位寄存器。有VVP解析器实例化的所有线程形成线程列表。其通常用来驱动.functor</p>
+</li>
+<li><p>仿真器的架构为：  </p>
+<p><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d0mktx0j20dx0clgmg.jpg" alt="iveilog"> </p>
+</li>
 </ul>
 <h2 id="partitioner"><a href="#partitioner" class="headerlink" title="partitioner"></a>partitioner</h2><ul>
 <li><p> 在DVS（设计的划分系统）中，利用functor list在FunctorGraphs中构建图。分区算法的基类ParBase是一个抽象类。所有的分区算法都从ParBase派生，并为doPartition提供特定的算法。在DVS中，分区程序将在运行时根据命令行中的分区参数自动选择相应的算法。</p>
 </li>
 <li><p> 电路的信息在iverilog仿真器和VVP仿真器都能够得到，可以在任意一侧分区，考虑数据结构的因素以及the functor和vthread都是DVS中的LPs(逻辑进程)。因此选择使用functor和vthread list去划分。</p>
 </li>
-<li><p>  <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg" alt="functor and vthread">  </p>
+<li><p>   <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg" alt="functor and vthread">  </p>
 </li>
 <li><p> 函数表的结构类似于邻接表，方便划分。每一台计算机在仿真时都有function list副本，可以方便实现远程通信。如果在仿真过程中需要执行动态负载均衡，则可以对函数表重新进行划分，修改相应functor的partition-id即可。</p>
 </li>
@@ -274,36 +278,63 @@
 </li>
 <li><p>决定分区质量的主要因素有三个：<br> <font face="微软雅黑" color="red" size="4">负载平衡、通信和并发</font>。<br>  CLIP和METIS是用于大型电路分区的有效算法，能够产生较好的划分质量。但是仅仅考虑了<font face="微软雅黑" color="red" size="4">通信和负载平衡</font>。并发问题没有解决。目的是为了实现负载均衡，还可以使用预仿真来获得每个门的准确活动。</p>
 </li>
-<li><p>设计的整个框架为：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d2ogkizj20de06s74m.jpg" alt="DVS框架"> </p>
+<li><p>设计的整个框架为：  </p>
+<p> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d2ogkizj20de06s74m.jpg" alt="DVS框架"> </p>
 </li>
 </ul>
 <h2 id="OOCTW-objected-oriented-clustered-Time-Warp"><a href="#OOCTW-objected-oriented-clustered-Time-Warp" class="headerlink" title="OOCTW(objected-oriented clustered Time Warp)"></a>OOCTW(objected-oriented clustered Time Warp)</h2><ul>
-<li> 群时间扭曲是在考虑逻辑模拟的情况下开发的。逻辑进程被分组为群。每个群都有与其相关联的输入和输出队列。事件在群集中按顺序执行。开发了回滚算法和检查点算法。</li>
-<li> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg" alt="state框架"></li>
-<li> 将CTW转换为OOCTW，使其成为一个开放的后端。设计使得Time Warp更加具有可重用性、可读性。给优化算法提供很好的平台。</li>
-<li> OOCTW中，每个群中有多个LP，利用LTSF去管理和调度LP，每个群有一个未处理的list和输出list。GVT计算也在群中执行。例如仿真时间，回滚次数以及通信代价。</li>
-<li> LP执行回滚，并为状态保存和状态恢复提供虚拟方法。LP维护已处理的事件列表，但不维护输出事件列表。当LP发出跨越群边界的事时，它会将该事件的副本插入到群的输出事件列表中。</li>
-<li> 事件提供《》和==去比较两个事件的时间戳。判断事件是有效事件还是无效事件。类GVT继承自事件类。其被用于计算GVT。</li>
-<li> 状态基类是一个抽象基类。在DVS中，有两种不同类型的LP，其都有自己的状态。</li>
-<li>状态表：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dbejpjsj20dk0byaan.jpg" alt="状态表">  </li>
+<li><p> 群时间扭曲是在考虑逻辑模拟的情况下开发的。逻辑进程被分组为群。每个群都有与其相关联的输入和输出队列。事件在群集中按顺序执行。开发了回滚算法和检查点算法。</p>
+</li>
+<li><p> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg" alt="state框架"></p>
+</li>
+<li><p> 将CTW转换为OOCTW，使其成为一个开放的后端。设计使得Time Warp更加具有可重用性、可读性。给优化算法提供很好的平台。</p>
+</li>
+<li><p> OOCTW中，每个群中有多个LP，利用LTSF去管理和调度LP，每个群有一个未处理的list和输出list。GVT计算也在群中执行。例如仿真时间，回滚次数以及通信代价。</p>
+</li>
+<li><p> LP执行回滚，并为状态保存和状态恢复提供虚拟方法。LP维护已处理的事件列表，但不维护输出事件列表。当LP发出跨越群边界的事时，它会将该事件的副本插入到群的输出事件列表中。</p>
+</li>
+<li><p> 事件提供《》和==去比较两个事件的时间戳。判断事件是有效事件还是无效事件。类GVT继承自事件类。其被用于计算GVT。</p>
+</li>
+<li><p> 状态基类是一个抽象基类。在DVS中，有两种不同类型的LP，其都有自己的状态。</p>
+</li>
+<li><p>状态表： </p>
+<p> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dbejpjsj20dk0byaan.jpg" alt="状态表">  </p>
+</li>
 </ul>
 <h2 id="分布式仿真引擎"><a href="#分布式仿真引擎" class="headerlink" title="分布式仿真引擎"></a>分布式仿真引擎</h2><ul>
-<li> 通过与OOCTW的集成，将原来的顺序VVP仿真器转变为分布式仿真引擎。functor在veilog中定义结构项，vthread定义行为块。其都继承自类LP并都覆盖抽象成员方法，能够保存状态，回滚和恢复状态。Functorstate和vthreadstate实现了state接口，用于记录functor和vthread的状态。</li>
-<li> verilogEvent继承自类event,分布式仿真引擎中的几种类型事件。</li>
-<li> 1 THREAD event 被用于唤醒被阻塞的虚拟线程，该虚拟线程正在等待事件的发生，例如寄存器的值的更改。EVAL和PROP用于在functor之间传播值的更改。</li>
-<li> 2 INQUIRY event 用于检测远程主机上的functor值。例如语句￥DISPLAY($TIME,a)中的变量a可以位于远程处理器中。因此，虚拟进程将发送查询消息去获得远程functor的值。远程处理器将在处理该事件后立即发回响应。</li>
-<li> 在分区之后，仿真调度THREAD event调用分区ID与本地计算机的主机ID匹配的虚拟线程。这些虚拟线程将输送输入向量给到functors。仿真器处理事件直到它得到FINISH event广播通过机器0。</li>
-<li> 在不同机器行的每个仿真都保持functor的拓扑结构不变。只有那些ID与本地主机相同的functor才保持活跃。passive functors仅仅用来路由消息。没有计算发生。</li>
-<li> verilog中$DISPLAY和$MONITOR用于打印变量或逻辑门的值。然而，在其LVT小于GVT之前，LP的状态是不稳定的。因此，指令发出后不能立即提交I/O。因此创建延迟的I/O指令列表，以保存所有I/O指令及其发出时间。每次生成新的GVT时，模拟器将检查延迟的I/O列表。如果I/O指令的时间戳小于GVT，则它将被提交。<h2 id="分布式仿真引擎的优化"><a href="#分布式仿真引擎的优化" class="headerlink" title="分布式仿真引擎的优化"></a>分布式仿真引擎的优化</h2><h3 id="直接执行零延迟事件"><a href="#直接执行零延迟事件" class="headerlink" title="直接执行零延迟事件"></a>直接执行零延迟事件</h3></li>
-<li> 当模拟器生成与当前LVT具有相同时间戳的零延迟事件时，直接执行该事件，而不将其插入事件队列，然后将其弹出并执行。在veilog模拟中有很多同时发生的事件。functor将其值更改到所有它的functors中。<h3 id="运行时的过时信息收集"><a href="#运行时的过时信息收集" class="headerlink" title="运行时的过时信息收集"></a>运行时的过时信息收集</h3></li>
-<li> 为了提高模拟器的效率，设计者维护了一个自由事件列表，最大限度地减少malloc/free new/delete的调用。每次模拟器调度事件时，首先检查空闲列表。如果不为空，则新事件可以直接使用空闲列表头部占用的内存空间。当模拟器处理完事件时，它会将事件指针放入空闲列表中，而不是删除内存空间。在分布式模拟器中继承空闲列表。还创建用于LP的状态保存的空闲状态列表。<h2 id="仿真实例"><a href="#仿真实例" class="headerlink" title="仿真实例"></a>仿真实例</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3></li>
-<li> verilog描述了16位的乘法器。包括2416个门和一个提供50个随机向量给电路的虚拟线程。利用BFS算法进行划分。消息传递接口使用MPI。</li>
-<li>其moudle为：<br> <img src="http://ww1.sinaimg.cn/largec0b668fcly1gk7cxmbx4qj20dr0bhq3v.jpg" alt="moudle"> </li>
-<li>在8台奔腾机，操作系统为FReeBSD，其执行结果为：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dfgg6qvj20dd0b3aa8.jpg">  </li>
-<li>不同计算的数量时，处理事件数以及通信数量统计图：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg">  </li>
-<li>传递消息所用的平均时间图：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7diyoc5vj20bq05qdg6.jpg">  </li>
-<li>   其通信代价= 发送的消息数 * 平均时间<h2 id="仿真结论"><a href="#仿真结论" class="headerlink" title="仿真结论"></a>仿真结论</h2></li>
-<li> 成功创建了分布式veilog仿真框架DVS。采用OOCTW作为同步后端，利用ICARUS VERILog模拟器的开源代码。其具有灵活扩展并可优化。更大的电路将带来更好的加速比。实验证明有效的负载均衡、或者划分算法是VLSI模拟成功的关键。</li>
+<li><p> 通过与OOCTW的集成，将原来的顺序VVP仿真器转变为分布式仿真引擎。functor在veilog中定义结构项，vthread定义行为块。其都继承自类LP并都覆盖抽象成员方法，能够保存状态，回滚和恢复状态。Functorstate和vthreadstate实现了state接口，用于记录functor和vthread的状态。</p>
+</li>
+<li><p> verilogEvent继承自类event,分布式仿真引擎中的几种类型事件。</p>
+</li>
+<li><p> 1 THREAD event 被用于唤醒被阻塞的虚拟线程，该虚拟线程正在等待事件的发生，例如寄存器的值的更改。EVAL和PROP用于在functor之间传播值的更改。</p>
+</li>
+<li><p> 2 INQUIRY event 用于检测远程主机上的functor值。例如语句￥DISPLAY($TIME,a)中的变量a可以位于远程处理器中。因此，虚拟进程将发送查询消息去获得远程functor的值。远程处理器将在处理该事件后立即发回响应。</p>
+</li>
+<li><p> 在分区之后，仿真调度THREAD event调用分区ID与本地计算机的主机ID匹配的虚拟线程。这些虚拟线程将输送输入向量给到functors。仿真器处理事件直到它得到FINISH event广播通过机器0。</p>
+</li>
+<li><p> 在不同机器行的每个仿真都保持functor的拓扑结构不变。只有那些ID与本地主机相同的functor才保持活跃。passive functors仅仅用来路由消息。没有计算发生。</p>
+</li>
+<li><p> verilog中$DISPLAY和$MONITOR用于打印变量或逻辑门的值。然而，在其LVT小于GVT之前，LP的状态是不稳定的。因此，指令发出后不能立即提交I/O。因此创建延迟的I/O指令列表，以保存所有I/O指令及其发出时间。每次生成新的GVT时，模拟器将检查延迟的I/O列表。如果I/O指令的时间戳小于GVT，则它将被提交。</p>
+<h2 id="分布式仿真引擎的优化"><a href="#分布式仿真引擎的优化" class="headerlink" title="分布式仿真引擎的优化"></a>分布式仿真引擎的优化</h2><h3 id="直接执行零延迟事件"><a href="#直接执行零延迟事件" class="headerlink" title="直接执行零延迟事件"></a>直接执行零延迟事件</h3></li>
+<li><p> 当模拟器生成与当前LVT具有相同时间戳的零延迟事件时，直接执行该事件，而不将其插入事件队列，然后将其弹出并执行。在veilog模拟中有很多同时发生的事件。functor将其值更改到所有它的functors中。</p>
+<h3 id="运行时的过时信息收集"><a href="#运行时的过时信息收集" class="headerlink" title="运行时的过时信息收集"></a>运行时的过时信息收集</h3></li>
+<li><p> 为了提高模拟器的效率，设计者维护了一个自由事件列表，最大限度地减少malloc/free new/delete的调用。每次模拟器调度事件时，首先检查空闲列表。如果不为空，则新事件可以直接使用空闲列表头部占用的内存空间。当模拟器处理完事件时，它会将事件指针放入空闲列表中，而不是删除内存空间。在分布式模拟器中继承空闲列表。还创建用于LP的状态保存的空闲状态列表。</p>
+<h2 id="仿真实例"><a href="#仿真实例" class="headerlink" title="仿真实例"></a>仿真实例</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3></li>
+<li><p> verilog描述了16位的乘法器。包括2416个门和一个提供50个随机向量给电路的虚拟线程。利用BFS算法进行划分。消息传递接口使用MPI。</p>
+</li>
+<li><p>其moudle为：  </p>
+<p> <img src="http://ww1.sinaimg.cn/largec0b668fcly1gk7cxmbx4qj20dr0bhq3v.jpg" alt="moudle">  </p>
+</li>
+<li><p>在8台奔腾机，操作系统为FReeBSD，其执行结果为：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dfgg6qvj20dd0b3aa8.jpg">  </p>
+</li>
+<li><p>不同计算的数量时，处理事件数以及通信数量统计图：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg">  </p>
+</li>
+<li><p>传递消息所用的平均时间图：<br> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7diyoc5vj20bq05qdg6.jpg">  </p>
+</li>
+<li><p>   其通信代价= 发送的消息数 * 平均时间</p>
+<h2 id="仿真结论"><a href="#仿真结论" class="headerlink" title="仿真结论"></a>仿真结论</h2></li>
+<li><p> 成功创建了分布式veilog仿真框架DVS。采用OOCTW作为同步后端，利用ICARUS VERILog模拟器的开源代码。其具有灵活扩展并可优化。更大的电路将带来更好的加速比。实验证明有效的负载均衡、或者划分算法是VLSI模拟成功的关键。</p>
+</li>
 </ul>
 
     </div>
