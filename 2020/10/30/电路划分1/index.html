@@ -34,15 +34,15 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d2ogkizj20de06s74m.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dbejpjsj20dk0byaan.jpg">
+<meta property="og:image" content="http://example.com/images/a.png">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7farjb53j20dd0b3aa8.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d4zwlgnj20dm05rgm2.jpg">
 <meta property="og:image" content="http://example.com/images/V8~94%7DD@T(%7DLO8B%25J1RMM7.png">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d4zwlgnj20dm05rgm2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dbejpjsj20dk0byaan.jpg">
-<meta property="og:image" content="http://example.com/images/a.png">
 <meta property="article:published_time" content="2020-10-30T02:11:32.000Z">
-<meta property="article:modified_time" content="2020-10-30T08:51:14.482Z">
+<meta property="article:modified_time" content="2020-10-30T08:56:23.798Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="电路划分调研">
 <meta name="twitter:card" content="summary">
@@ -244,7 +244,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-10-30 10:11:32 / Modified: 16:51:14" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
+      <time title="Created: 2020-10-30 10:11:32 / Modified: 16:56:23" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
     </span>
 
   
@@ -285,7 +285,7 @@
 <li> 当模拟器生成与当前LVT具有相同时间戳的零延迟事件时，直接执行该事件，而不将其插入事件队列，然后将其弹出并执行。在veilog模拟中有很多同时发生的事件。functor将其值更改到所有它的functors中。<h3 id="运行时的过时信息收集"><a href="#运行时的过时信息收集" class="headerlink" title="运行时的过时信息收集"></a>运行时的过时信息收集</h3></li>
 <li> 为了提高模拟器的效率，设计者维护了一个自由事件列表，最大限度地减少malloc/free new/delete的调用。每次模拟器调度事件时，首先检查空闲列表。如果不为空，则新事件可以直接使用空闲列表头部占用的内存空间。当模拟器处理完事件时，它会将事件指针放入空闲列表中，而不是删除内存空间。在分布式模拟器中继承空闲列表。还创建用于LP的状态保存的空闲状态列表。<h2 id="仿真实例"><a href="#仿真实例" class="headerlink" title="仿真实例"></a>仿真实例</h2><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3></li>
 <li> verilog描述了16位的乘法器。包括2416个门和一个提供50个随机向量给电路的虚拟线程。利用BFS算法进行划分。消息传递接口使用MPI。</li>
-<li> 其moudle为：<br>![]V8~94}D@T(}LO8B%J1RMM7.png](<a target="_blank" rel="noopener" href="http://ww1.sinaimg.cn/large/c0b668fcly1gk7ewr0r73j20dr0bh0tw.jpg">http://ww1.sinaimg.cn/large/c0b668fcly1gk7ewr0r73j20dr0bh0tw.jpg</a>)</li>
+<li> 其moudle为：<br><img src="/images/a.png"></li>
 <li>  在8台奔腾机，操作系统为FReeBSD，其执行结果为：<br><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7farjb53j20dd0b3aa8.jpg" alt="image.png"></li>
 <li>不同计算的数量时，处理事件数以及通信数量统计图：<br><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dhkre1xj20dx0b40t2.jpg" alt="image.png"></li>
 <li>  传递消息所用的平均时间图:<br><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d4zwlgnj20dm05rgm2.jpg" alt="image.png"><br><img src="/images/V8~94%7DD@T(%7DLO8B%25J1RMM7.png"></li>
@@ -294,7 +294,6 @@
 </ul>
 <p><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d4zwlgnj20dm05rgm2.jpg" alt="image.png"><br><img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7dbejpjsj20dk0byaan.jpg"/></p>
 <pre><code>![]V8~94&#125;D@T(&#125;LO8B%J1RMM7.png](https://i.loli.net/2020/10/30/PXhOu3nW8Svk2GV.png)</code></pre>
-<p>  <img src="/images/a.png"></p>
 
     </div>
 
