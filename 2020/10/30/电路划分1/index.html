@@ -32,14 +32,13 @@
 <meta property="og:image" content="http://example.com/images/b.png">
 <meta property="og:image" content="http://example.com/images/d.png">
 <meta property="og:image" content="http://example.com/images/c.png">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg">
 <meta property="og:image" content="http://example.com/images/f.png">
 <meta property="og:image" content="http://example.com/images/a.png">
 <meta property="og:image" content="http://example.com/images/k.png">
 <meta property="og:image" content="http://example.com/images/j.png">
 <meta property="og:image" content="http://example.com/images/h.png">
 <meta property="article:published_time" content="2020-10-30T02:11:32.000Z">
-<meta property="article:modified_time" content="2020-10-30T09:05:44.897Z">
+<meta property="article:modified_time" content="2020-10-30T09:08:01.661Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="电路划分调研">
 <meta name="twitter:card" content="summary">
@@ -241,7 +240,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-10-30 10:11:32 / Modified: 17:05:44" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
+      <time title="Created: 2020-10-30 10:11:32 / Modified: 17:08:01" itemprop="dateCreated datePublished" datetime="2020-10-30T10:11:32+08:00">2020-10-30</time>
     </span>
 
   
@@ -265,7 +264,6 @@
 <li>决定分区质量的主要因素有三个：<br> <font face="微软雅黑" color="red" size="4">负载平衡、通信和并发</font>。<br>  CLIP和METIS是用于大型电路分区的有效算法，能够产生较好的划分质量。但是仅仅考虑了<font face="微软雅黑" color="red" size="4">通信和负载平衡</font>。并发问题没有解决。目的是为了实现负载均衡，还可以使用预仿真来获得每个门的准确活动。</li>
 <li>设计的整个框架为：<br><img src="/images/c.png"><h2 id="OOCTW-objected-oriented-clustered-Time-Warp"><a href="#OOCTW-objected-oriented-clustered-Time-Warp" class="headerlink" title="OOCTW(objected-oriented clustered Time Warp)"></a>OOCTW(objected-oriented clustered Time Warp)</h2></li>
 <li> 群时间扭曲是在考虑逻辑模拟的情况下开发的。逻辑进程被分组为群。每个群都有与其相关联的输入和输出队列。事件在群集中按顺序执行。开发了回滚算法和检查点算法。</li>
-<li> <img src="http://ww1.sinaimg.cn/large/c0b668fcly1gk7d8fpun6j20eb0adq3j.jpg" alt="state框架"></li>
 <li> 将CTW转换为OOCTW，使其成为一个开放的后端。设计使得Time Warp更加具有可重用性、可读性。给优化算法提供很好的平台。</li>
 <li> OOCTW中，每个群中有多个LP，利用LTSF去管理和调度LP，每个群有一个未处理的list和输出list。GVT计算也在群中执行。例如仿真时间，回滚次数以及通信代价。</li>
 <li> LP执行回滚，并为状态保存和状态恢复提供虚拟方法。LP维护已处理的事件列表，但不维护输出事件列表。当LP发出跨越群边界的事时，它会将该事件的副本插入到群的输出事件列表中。</li>
