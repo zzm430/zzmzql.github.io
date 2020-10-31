@@ -231,7 +231,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-10-31 10:07:17" itemprop="dateModified" datetime="2020-10-31T10:07:17+08:00">2020-10-31</time>
+        <time title="Modified: 2020-10-31 10:09:38" itemprop="dateModified" datetime="2020-10-31T10:09:38+08:00">2020-10-31</time>
       </span>
 
   
@@ -250,9 +250,7 @@
 <li>  <font face="微软雅黑" color="red" size="4">大多数用于分布式/并行VLSI模拟门级网表的划分算法通常用于布局规划，而不是模拟。它们会产生仿真环境中无法容忍的大裁剪，通信成本很高。此外，很少有分区算分考虑负载均衡。</font></li>
 <li>  <font face="微软雅黑" color="green" size="4">ASIC设计界有着完整的分层设计方法。每个设计都是按照功能划分成块。设计层次反应在模块及其实例中。在本文中，利用层次信息和基于移动的划分算法相结合，模块、实例是基本的划分元素，而不是门。</font></li>
 </ul>
-<h2 id="相关的研究"><a href="#相关的研究" class="headerlink" title="相关的研究"></a>相关的研究</h2><ul>
-<li>1 针对最小化FPGA芯片的使用数量并最大化可路由性。<br> 2 迭代算法从初始分区开始，并尝试对其进行改进。<br> 3 介绍多级超图划分算法中的粗化阶段。粗化的目的是创建一个较小的超图，同时保持从原始超图获得的划分质量。结论是hmetis生成的分区始终好于其他广泛使用的算法，并且比其他算法快一到两个数量级。</li>
-</ul>
+<h2 id="相关的研究"><a href="#相关的研究" class="headerlink" title="相关的研究"></a>相关的研究</h2><p>   1 针对最小化FPGA芯片的使用数量并最大化可路由性。<br>   2 迭代算法从初始分区开始，并尝试对其进行改进。<br>   3 介绍多级超图划分算法中的粗化阶段。粗化的目的是创建一个较小的超图，同时保持从原始超图获得的划分质量。结论是hmetis生成的分区始终好于其他广泛使用的算法，并且比其他算法快一到两个数量级。</p>
 <h2 id="采用算法特点"><a href="#采用算法特点" class="headerlink" title="采用算法特点"></a>采用算法特点</h2><ul>
 <li> 本文采用的算法是从自顶向下设计，一步一步地划分，在负载平衡约束和最小切割大小之间进行折衷。 </li>
 <li> <font face="微软雅黑" color="green" size="4">本文算法专门针对分布式verilog仿真。算法的主要目的试图从一开始就保持verilog实例(实际上是设计层次结构)完好无损。用此方式得到的分割质量应该比簇恢复和超图粗化更好。</font>   </li>
@@ -268,13 +266,12 @@
 </details>  
 
 <h2 id="分布式verilog仿真框架"><a href="#分布式verilog仿真框架" class="headerlink" title="分布式verilog仿真框架"></a>分布式verilog仿真框架</h2><ul>
-<li><p>DVS一共有三层：<br> 1.<font face="微软雅黑" color="green" size="4">底层，通信层，向上层提供通用的消息传递接口。在这一层软件通信平台可以使用PVM或MPI。用户可以在不使用上层代码的情况下选择其中一种。</font><br> 2.<font face="微软雅黑" color="red" size="4">中间层，并行离散事件仿真内核OOCTW，它是集群时间扭曲(CTW)的面向对象版本。向顶层提供回滚、状态保存与恢复、GVT计算、旧的信息采集等服务。</font><br> 3.<font face="微软雅黑" color="blue" size="4">顶层，顶层是分布式模拟引擎，它包括一个事件处理程序和一个解释器，用于执行虚拟线程的代码空间中的指令。</font></p>
-<details>
-<summary>verilog层次结构</summary>  
-
-<p> <img src="/images/c.png"> </p>
-</li>
+<li>DVS一共有三层：<br> 1.<font face="微软雅黑" color="green" size="4">底层，通信层，向上层提供通用的消息传递接口。在这一层软件通信平台可以使用PVM或MPI。用户可以在不使用上层代码的情况下选择其中一种。</font><br> 2.<font face="微软雅黑" color="red" size="4">中间层，并行离散事件仿真内核OOCTW，它是集群时间扭曲(CTW)的面向对象版本。向顶层提供回滚、状态保存与恢复、GVT计算、旧的信息采集等服务。</font><br> 3.<font face="微软雅黑" color="blue" size="4">顶层，顶层是分布式模拟引擎，它包括一个事件处理程序和一个解释器，用于执行虚拟线程的代码空间中的指令。</font></li>
 </ul>
+<details>
+  <summary>verilog层次结构</summary>  
+
+<p>   <img src="/images/c.png"> </p>
 </details> 
 
 
