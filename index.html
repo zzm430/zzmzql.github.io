@@ -226,6 +226,13 @@
 
       <time title="Created: 2020-10-30 17:13:28" itemprop="dateCreated datePublished" datetime="2020-10-30T17:13:28+08:00">2020-10-30</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-10-31 10:00:54" itemprop="dateModified" datetime="2020-10-31T10:00:54+08:00">2020-10-31</time>
+      </span>
 
   
 </div>
@@ -237,7 +244,32 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <h2 id="划分算法介绍"><a href="#划分算法介绍" class="headerlink" title="划分算法介绍"></a>划分算法介绍</h2><ul>
+<li>   <font face="微软雅黑" color="blue" size="4">本文是基于DVS仿真环境做的。</font>通常是利用门级网表，使其达到负载平衡约束的最小切割。算法在表示网表的超图上进行。本文提出的是一种设计驱动的verilog迭代划分算法。该算法基于<font face="微软雅黑" color="red" size="4">模块实例</font>而不是门。这样做的目的是为了模块及其实例中包含的设计层次结构信息。<font face="微软雅黑" color="red" size="4">verilog实例表示电路超图中的一个顶点。在基于实例的分区没有实现负载平衡的情况下，可以将顶点扩展为多个顶点。该算法平摊最大的实例，并在分区之间移动门，来改善负载平衡。该划分算法在门级网表上产生的割大小比hmetis产生的割要小。</font>其利用了层次设计结构，因此提供了更好的加速比。</li>
+<li>  Time Warp对于VLSI电路的分布式逻辑仿真很有吸引力，其潜在地揭示了被仿真VLSI系统中的高度并行性。划分算法是启发式算法，易陷入局部最优。</li>
+<li>  <font face="微软雅黑" color="red" size="4">大多数用于分布式/并行VLSI模拟门级网表的划分算法通常用于布局规划，而不是模拟。它们会产生仿真环境中无法容忍的大裁剪，通信成本很高。此外，很少有分区算分考虑负载均衡。</font></li>
+<li>  <font face="微软雅黑" color="green" size="4">ASIC设计界有着完整的分层设计方法。每个设计都是按照功能划分成块。设计层次反应在模块及其实例中。在本文中，利用层次信息和基于移动的划分算法相结合，模块、实例是基本的划分元素，而不是门。</font></li>
+</ul>
+<h2 id="相关的研究"><a href="#相关的研究" class="headerlink" title="相关的研究"></a>相关的研究</h2><ul>
+<li>1 针对最小化FPGA芯片的使用数量并最大化可路由性。<br> 2 迭代算法从初始分区开始，并尝试对其进行改进。<br> 3 介绍多级超图划分算法中的粗化阶段。粗化的目的是创建一个较小的超图，同时保持从原始超图获得的划分质量。结论是hmetis生成的分区始终好于其他广泛使用的算法，并且比其他算法快一到两个数量级。<h2 id="采用算法特点"><a href="#采用算法特点" class="headerlink" title="采用算法特点"></a>采用算法特点</h2></li>
+</ul>
+<ul>
+<li> 本文采用的算法是从自顶向下设计，一步一步地划分，在负载平衡约束和最小切割大小之间进行折衷。 </li>
+<li> <font face="微软雅黑" color="green" size="4">本文算法专门针对分布式verilog仿真。算法的主要目的试图从一开始就保持verilog实例(实际上是设计层次结构)完好无损。用此方式得到的分割质量应该比簇恢复和超图粗化更好。</font>   <h2 id="verilog中的层次结构"><a href="#verilog中的层次结构" class="headerlink" title="verilog中的层次结构"></a>verilog中的层次结构</h2></li>
+<li> 模块是verilog中的基本代码单元，行为和结构都包含在模块中，模块的封装特性使得设计者能够在VLSI设计中重用模块。模块提供了接口，同时隐藏程序内部的复杂性。因此模块及其实例便是分区对象。在本文中引入超门的概念。每个模块实例都是模块的独立、并发活动副本。</li>
+<li>如下图所示，图中左侧是源代码，右侧是设计层次及其互连。verilog实例之间的耦合是松散的，而verilog实例内部的耦合是紧密的。因此，如果在实例边界处切割电路，则切割大小将更小，并且处理器间的通信将减少。<details>
+<summary>verilog层次结构</summary>  
+ ![](/images/verilog层次结构.png)  
+</details>  
+## 分布式verilog仿真框架</li>
+<li>DVS一共有三层：<br> 1.<font face="微软雅黑" color="green" size="4">底层，通信层，向上层提供通用的消息传递接口。在这一层软件通信平台可以使用PVM或MPI。用户可以在不使用上层代码的情况下选择其中一种。</font><br> 2.<font face="微软雅黑" color="red" size="4">中间层，并行离散事件仿真内核OOCTW，它是集群时间扭曲(CTW)的面向对象版本。向顶层提供回滚、状态保存与恢复、GVT计算、旧的信息采集等服务。</font><br> 3.<font face="微软雅黑" color="blue" size="4">顶层，顶层是分布式模拟引擎，它包括一个事件处理程序和一个解释器，用于执行虚拟线程的代码空间中的指令。</font><details>
+<summary>verilog层次结构</summary>  
+ ![](/images/c.png)  
+</details> 
+
+</li>
+</ul>
+
       
     </div>
 
