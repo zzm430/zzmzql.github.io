@@ -231,7 +231,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-10-31 10:00:54" itemprop="dateModified" datetime="2020-10-31T10:00:54+08:00">2020-10-31</time>
+        <time title="Modified: 2020-10-31 10:03:09" itemprop="dateModified" datetime="2020-10-31T10:03:09+08:00">2020-10-31</time>
       </span>
 
   
@@ -257,18 +257,24 @@
 <li> 本文采用的算法是从自顶向下设计，一步一步地划分，在负载平衡约束和最小切割大小之间进行折衷。 </li>
 <li> <font face="微软雅黑" color="green" size="4">本文算法专门针对分布式verilog仿真。算法的主要目的试图从一开始就保持verilog实例(实际上是设计层次结构)完好无损。用此方式得到的分割质量应该比簇恢复和超图粗化更好。</font>   <h2 id="verilog中的层次结构"><a href="#verilog中的层次结构" class="headerlink" title="verilog中的层次结构"></a>verilog中的层次结构</h2></li>
 <li> 模块是verilog中的基本代码单元，行为和结构都包含在模块中，模块的封装特性使得设计者能够在VLSI设计中重用模块。模块提供了接口，同时隐藏程序内部的复杂性。因此模块及其实例便是分区对象。在本文中引入超门的概念。每个模块实例都是模块的独立、并发活动副本。</li>
-<li>如下图所示，图中左侧是源代码，右侧是设计层次及其互连。verilog实例之间的耦合是松散的，而verilog实例内部的耦合是紧密的。因此，如果在实例边界处切割电路，则切割大小将更小，并且处理器间的通信将减少。<details>
-<summary>verilog层次结构</summary>  
- ![](/images/verilog层次结构.png)  
-</details>  
-## 分布式verilog仿真框架</li>
-<li>DVS一共有三层：<br> 1.<font face="微软雅黑" color="green" size="4">底层，通信层，向上层提供通用的消息传递接口。在这一层软件通信平台可以使用PVM或MPI。用户可以在不使用上层代码的情况下选择其中一种。</font><br> 2.<font face="微软雅黑" color="red" size="4">中间层，并行离散事件仿真内核OOCTW，它是集群时间扭曲(CTW)的面向对象版本。向顶层提供回滚、状态保存与恢复、GVT计算、旧的信息采集等服务。</font><br> 3.<font face="微软雅黑" color="blue" size="4">顶层，顶层是分布式模拟引擎，它包括一个事件处理程序和一个解释器，用于执行虚拟线程的代码空间中的指令。</font><details>
-<summary>verilog层次结构</summary>  
- ![](/images/c.png)  
-</details> 
+<li> 如下图所示，图中左侧是源代码，右侧是设计层次及其互连。verilog实例之间的耦合是松散的，而verilog实例内部的耦合是紧密的。因此，如果在实例边界处切割电路，则切割大小将更小，并且处理器间的通信将减少。</li>
+</ul>
+<details>
+  <summary>verilog层次结构</summary>   
 
+<p>   <img src="/images/verilog%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84.png"></p>
+</details>  
+
+<h2 id="分布式verilog仿真框架"><a href="#分布式verilog仿真框架" class="headerlink" title="分布式verilog仿真框架"></a>分布式verilog仿真框架</h2><ul>
+<li><p>DVS一共有三层：<br> 1.<font face="微软雅黑" color="green" size="4">底层，通信层，向上层提供通用的消息传递接口。在这一层软件通信平台可以使用PVM或MPI。用户可以在不使用上层代码的情况下选择其中一种。</font><br> 2.<font face="微软雅黑" color="red" size="4">中间层，并行离散事件仿真内核OOCTW，它是集群时间扭曲(CTW)的面向对象版本。向顶层提供回滚、状态保存与恢复、GVT计算、旧的信息采集等服务。</font><br> 3.<font face="微软雅黑" color="blue" size="4">顶层，顶层是分布式模拟引擎，它包括一个事件处理程序和一个解释器，用于执行虚拟线程的代码空间中的指令。</font></p>
+<details>
+<summary>verilog层次结构</summary>  
+
+<p> <img src="/images/c.png"> </p>
 </li>
 </ul>
+</details> 
+
 
       
     </div>
