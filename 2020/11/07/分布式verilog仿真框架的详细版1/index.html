@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="##参考文献：DVS: An Object-Oriented Framework for Distributed Verilog Simulation       &#x2F;&#x2F;这篇讲的稍微粗糙一些，但是整个方案已经给出 A Partitioning Framework  For Distributed Verilog Simulation       &#x2F;&#x2F;这篇讲的十分详细，细节可以从这篇挖掘 Toward">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式verilog仿真框架的详细版1">
+<meta property="og:url" content="http://example.com/2020/11/07/%E5%88%86%E5%B8%83%E5%BC%8Fverilog%E4%BB%BF%E7%9C%9F%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AF%A6%E7%BB%86%E7%89%881/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="##参考文献：DVS: An Object-Oriented Framework for Distributed Verilog Simulation       &#x2F;&#x2F;这篇讲的稍微粗糙一些，但是整个方案已经给出 A Partitioning Framework  For Distributed Verilog Simulation       &#x2F;&#x2F;这篇讲的十分详细，细节可以从这篇挖掘 Toward">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-07T04:15:16.000Z">
+<meta property="article:modified_time" content="2020-11-07T05:22:21.202Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2020/11/07/%E5%88%86%E5%B8%83%E5%BC%8Fverilog%E4%BB%BF%E7%9C%9F%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AF%A6%E7%BB%86%E7%89%881/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>分布式verilog仿真框架的详细版1 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VVP-Simulator"><span class="nav-number">1.</span> <span class="nav-text">VVP  Simulator</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/07/%E5%88%86%E5%B8%83%E5%BC%8Fverilog%E4%BB%BF%E7%9C%9F%E6%A1%86%E6%9E%B6%E7%9A%84%E8%AF%A6%E7%BB%86%E7%89%881/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分布式verilog仿真框架的详细版1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-11-07 12:15:16 / Modified: 13:22:21" itemprop="dateCreated datePublished" datetime="2020-11-07T12:15:16+08:00">2020-11-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>##参考文献：<br>DVS: An Object-Oriented Framework for Distributed Verilog Simulation<br>       //这篇讲的稍微粗糙一些，但是整个方案已经给出</p>
+<p>A Partitioning Framework  For Distributed Verilog Simulation<br>       //这篇讲的十分详细，细节可以从这篇挖掘</p>
+<p>Towards Optimization Techniques for  Dynamic Load Balancing of Parallel Gate Level Simulation<br>       //这篇讲的是动态负载平衡，运用强化学习改进CTW，在实际芯片上验证</p>
+<p>Scalable Clustered Time Warp and Logic Simulation<br>      //将CTW改进用于逻辑仿真</p>
+<p>##iverilog<br>###Iverilog compiler<br>模块的分层结构不适合用于仿真目的。IVerilog编译器分以下五个连续阶段展平原始源文件中的模块：</p>
+<p>1.预处理   2.语法分析  3.详细描述  4.优化  5.代码生成</p>
+<h3 id="VVP-Simulator"><a href="#VVP-Simulator" class="headerlink" title="VVP  Simulator"></a>VVP  Simulator</h3><ul>
+<li>VVP模拟器是VVP汇编代码的解释器。它解析VVP汇编代码生成网表，并施加输入向量驱动仿真. IVerilog编译器生成了VVP汇编代码文件，VVP Parser和Simulation Engine。VVP解析器对应于VVP汇编代码文件的编译。仿真引擎根据VVP Parser构建的functor list对电路进行仿真。</li>
+</ul>
+<p>####VVP parse<br>  <strong>具有三个连续的步骤</strong>:</p>
+<ul>
+<li><p>第一步是初始化，其对应函数为：compile_init()初始化functor list的存储空间和代码空间。Mcd channel和log file将被初始化，一些vpi模块也将在此处加载。</p>
+</li>
+<li><p>第二步是利用函数compile_design()进行编译，真正的编译在parse.ee文件中完成，将在此处读取并解析VVP汇编代码文件，它将生成所有内部数据结构。内部functor list和vthreads在此过程中生成。</p>
+</li>
+<li><p>最后一步是清理，调用函数compile_cleanup()。解决所有引用，并在此处完成了所有互连。<br>####Simulation Engine<br>**调用函数是schedule_simulate()**。<br>由于我们已经准备好所有内部数据结构：已构建functor list，所有vthreads实例化，并且初始事件在事件列表中等待，因此我们可以通过模拟事件列表中的事件来启动模拟引擎。我们可以看到放置分区代码的正确位置是在compile_cleanup()和schedule_simulate()之间.<br>####vvp中functor和vthread</p>
+</li>
+<li><p>在iverilog编译器中，将veilog转换为.functor和.thread。每个.functor定义为四个输入一个输出，所有的.functor都存在一个列表里面用于后面的分区和仿真。</p>
+</li>
+<li><p>行为级描述利用virtual threads来描述，其vthreads是运行在vvp的模拟器中而不是在操作系统中运行。每一个vthread用于线程执行的机制，由VVP解析器实例化所有线程形成线程列表。其通常用来驱动.functor</p>
+</li>
+</ul>
+<p>##PDES：</p>
+<ul>
+<li><p>DES（离散事件模拟）通过执行离散事件来对现实世界中的场景进行建模。例如，在用于VLSI电路的DES中，仿真试图对流过真实电路芯片中的门级互联进行建模。考虑到电路芯片中的一个门，其活动由事件建模，其状态由状态变量建模。一些事件是信号在门的输入端口之一改变，或传播到其扇出门的改变的输出信号。在典型的顺序DES程序中，通常会有一个中央事件列表来存储要处理的事件，并且有一个事件处理循环用于获取下一个要处理的事件。</p>
+</li>
+<li><p>PDES（并行离散事件模拟）由多个顺序DES并发工作以解决相同的问题。这些顺序的DES是作为PDES中的过程实现的。为了使用多个过程，必须将原始问题分解为较小的部分。有两种分解：域分解和功能分解。在域分解中，仅对数据进行分区。相同的指令在每个进程中运行，处理分配给它的数据部分。在功能分解中，将问题分解为较小的任务，并在仿真<br>过程中将任务分配给每个过程。我们在DVS中使用域分解，并且Partitioner框架是为分解数据而设计和实现的。</p>
+</li>
+<li><p>进程可以驻留在相同或不同的机器上。通常，PDES应用程序中会使用一台以上的计算机。 PDES通常使用两种计算机体系结构：共享内存和分布式内存。在共享内存环境中，进程可以直接访问非局部变量。但是，在分布式进程必须找到一种访问非局部变量的方法。在DVS中，我们假设采用分布式内存架构。我们的实验平台是工作站网络，其中消息用于进程之间的信息交换。</p>
+</li>
+<li><p>进程在PDES中称为LP（Logical Process)。在VLSI电路的分布式仿真中，为每个LP分配了一部分仿真电路，其中包含一个或多个门。 LP可以从其他LP接收消息中包含的输入信号，生成新事件以在内部传播该信号，还可以将消息中包含的输出信号发送给其他LP。每个LP都有自己的事件列表来存储要处理的内部事件，还拥有自己的事件处理循环来处理事件。每个LP还具有其自己的状态变量，该变量在整个仿真过程中跟踪LP的状态。</p>
+</li>
+</ul>
+<p>-典型的LP包含以下数据结构：</p>
+<ul>
+<li><p>1.LVT。每个LP都有自己的本地虚拟时间，以跟踪LP当前的模拟时间。</p>
+</li>
+<li><p>2.状态。每个LP都有自己的状态变量。在VLSI仿真中为门的情况下，状态可能包含门的每个输入端口和输出端口的值。</p>
+</li>
+<li><p>3.事件列表。每个LP都包含一个事件列表。所有要处理的事件均以其各自的时间戳顺序存储在事件列表中。</p>
+</li>
+<li><p>在顺序DES中，事件处理很简单：在每个事件处理循环中，从中央事件列表中提取一个事件并执行。新事件可以作为执行当前事件的结果而生成，并以正确的顺序插入到同一事件列表中。</p>
+</li>
+<li><p>在PDES中，没有所有LP的中央事件列表。因此，需要一种方法来协调多个LP的执行，以保持整个仿真的正确性。仿真时间和虚拟时间的概念用于LP的同步。现实世界中的时间称为挂钟时间。 DES中的仿真时间用于表示仿真系统中的物理挂钟时间。</p>
+</li>
+<li><p>广泛使用了两类同步算法，即保守算法和乐观算法。</p>
+</li>
+<li><p>保守算法的特点是阻塞行为。LP阻塞，直到它有事件要处理。</p>
+</li>
+<li><p>乐观算法的一个例子是Time Warp。在Time Warp中，LP维护一个包含从其他LP接收的事件的输入队列，一个存储发送到其他LP的事件副本的输出队列，以及一个存储检查点的LP状态的状态列表。 Time Warp允许局部因果冲突，使用回滚来更正可能的错误计算。</p>
+</li>
+</ul>
+<p>##CTW：<br><strong>这是一种用于并行计算具有较低计算粒度的大型离散事件模型的算法</strong>。</p>
+<ul>
+<li>CTW是在考虑逻辑模拟的情况下开发的。LP被分组为群。每个群都具有与其相关联的输入和输出队列。事件在群中按顺序执行。开发了几种用于CTW的回滚和检查点算法。</li>
+<li>CTW是实现面向对象CTW的起点。群将门捆绑在一起，以克服VLSI模拟的精细事件粒度。此外，群为负载平衡提供了非常好的基础。我们还可以在进程之间移动整个集群，而不仅仅是移动门。</li>
+</ul>
+<p>##Design of the simulation framework：<br><strong>DVS的架构：</strong></p>
+<ul>
+<li>VVP汇编代码作为输入。VVP parser构造functor list和vthread list。</li>
+<li>顶层是分布式仿真引擎，包括事件处理器和解释器，用于执行虚拟线程代码空间的指令。这是原始VVP中的Simulation Engine的修改版本。仿真的门数和vthreads保持相同（否则，顺序Simulation Engine和分布式模拟器的模拟结果将有所不同）。根据Time Warp的同步机制仅更改事件的调度。</li>
+<li>中间层是并行离散事件仿真内核OOCTW (Clustered Time Warp)向顶层提供回滚、状态保存与恢复、GVT计算等服务。</li>
+<li>底层是通信层，它为上层提供通用的消息解析接口。在这一层内，软件通信平台可以是PVM或MPI。</li>
+</ul>
+<p><strong>DVS的架构：</strong><br><img src=""></p>
+<p>##直接在VVP Simulator一侧进行分区</p>
+<ul>
+<li>不需要修改IVerilog编译器部件和VVP汇编代码格式。只要VVP汇编代码格式保持不变（很有可能），我们的模拟器就可以与任何更高版本的IVerilog编译器一起使用。</li>
+<li>生成的functor list既简单又紧凑，更适合分区。网表中的链接对象和Nexus对象非常复杂，并且在VVP Simulator中不存在。所有的链接信息都转换为functor之间的信息</li>
+<li>采取策略是在模拟中的每台计算机上都保留相同的functor list，因此，functor list是在模拟过程中存储概要分析数据的好地方。此外，这有助于负载平衡，因为它仅涉及更改要移动的functors的分区号。</li>
+<li>考虑到这些考虑因素以及对实际functor llist的分析，结论是，在VVP Simulator端进行分区是更好的选择。</li>
+</ul>
+<p>##Functor and  vthread：</p>
+<ul>
+<li><p>Functor :每个Functor具有四个输入端口<br>和一个输出端口。具有四个以上输入端<br>口的门被分成较小的门并级。functor也<br>有相关的延迟值。所有的functor都存储<br>在一个functor list中，该functor list将用<br>于分区和模拟。</p>
+</li>
+<li><p>在仿真过程中，当functor的任一输入端口<br>的值发生变化时，通过查询真值表来计算<br>新的输出值。如果结果与输出端口中的当<br>前值不同，则更新输出端口中的值，并使<br>用关联的延迟值调度传播事件。在该延迟<br>时间之后，事件被处理，并且信号被分配<br>给所有functor的相应输入端口.</p>
+</li>
+<li><p>Functor是VVP Simulator中电路表示的最基本的结构项。电路图中的几乎所有结构项都可以由某些类型的functor表示。functor不是精确的表示形式。实际的门可能具有四个以上的输入端口，但是functor最多只能具有四个输入端口。functor的基本功能是相同的-输入四个输入值并产生一个输出值。</p>
+</li>
+</ul>
+<ul>
+<li>vthread:Vthread在VVP模拟器的虚拟机中运行，而不是直接在操作系统中运行。每个Vthread包含用于线程执行的机制，包括程序计数器、4个数字索引寄存器和64K私有位寄存器。</li>
+</ul>
+<ul>
+<li>由VVP解析器实例化的所有Vthread被组织为Vthread list。在门级逻辑仿真中，vthreads通常用来驱动具有输入矢量的functors</li>
+</ul>
+<p>##Partitioner：</p>
+<ul>
+<li>为了充分利用DVS中不同的划分算法，我们设计了一个通用的分割器，并将其集成到DVS的框架中。</li>
+<li>分割器的设计目标是为测试应用于不同电路实现的不同分割算法提供灵活的基础设施。分区程序有两个主要部分：分区算法和被分区的电路图</li>
+<li>电路图用顶点和边代替。构造一个抽象Graph class。Graph class 提供了用于检索图中顶点和边信息的分区算法的接口。在DVS中，我们使用FunctorGraphs通过functor list构建图。</li>
+<li>分区算法的基类ParBase是一个抽象类。所有分区算法都应该从ParBase派生，并为doPartition方法提供特定于算法的实现。在DVS中，分区程序将在运行时根据命令行中的分区参数自动选择相应的算法。</li>
+</ul>
+<p>##Partitioning functors and vthreads：</p>
+<ul>
+<li>Vthread的处理方式与functor不同。当functor和vthread放在同一个分区中时，往往会发生更多的回滚。OOCTW使用集群式回滚，即一个LP上的落后者会导致同一群集中的所有LP回滚。</li>
+<li>Vthread的速度比functor快得多。因此，vthread可能会导致同一群集中所有速度较慢的函数更频繁地回滚。因此，将所有vthread放在一台计算机上。由于门级模拟中vthread的总数很少，因此可以通过较少的回滚来补偿丢失的并发性。大量的functor被分区并分配给模拟中的其余计算机。</li>
+</ul>
+<p>###Partitioning metrics and direction of ongoing re-search：</p>
+<ul>
+<li>决定分区质量的主要因素有三个：负载均衡、通信和并发。分区算法的目标是维护负载平衡、最小化通信并利用并发性。分区是在这三个因素中找到最佳折衷的因素。</li>
+<li>CLIP和METIS是用于大型电路分区算法，这两种算法都是快速的，并且产生较小的切割大小,它们只考虑通信和负载均衡。在CLIP或METIS中都没有解决并发问题。</li>
+<li>目标将并发引入CLIP或METIS。为了实现负载均衡，还可以使用预模拟来获得每个门的准确活动级别。</li>
+</ul>
+<p>##OOCTW(Object-oriented CTW)：</p>
+<ul>
+<li>CTW不是面向对象的,将CTW转换为OOCTW.</li>
+</ul>
+<ul>
+<li>OOCTW的目标是将其与原有的Verilog模拟器集成。设计的动机是限制对序列模拟器所做的更改，因为我们希望利用它的新版本。另一个设计目标是使Time Warp库更具可重用性、可读性和可理解性，新成员就可以专注于优化算法，而不是陷入Time Warp。</li>
+</ul>
+<p>###OOCTW(Object-oriented CTW)的层次结构：</p>
+<ul>
+<li>在CTW中，在进行仿真之前，将模型划分为LP集群。这个想法的动机是可以将对属于同一功能单元的门进行建模的逻辑过程组合在一起。群集的大小和数量没有限制，只是一个群集必须驻留在单个处理器上并且不能在处理器之间分配。每个群集与一个负责调度LP的群集环境（CE）相关联。集群环境还负责与其他集群的所有通信，因此，CE分别管理输入队列和输出队列，分别称为集群输入队列（CIQ）和集群输出队列（COQ）。</li>
+</ul>
+<p>##Distributed Simulation Engine：</p>
+<ul>
+<li><p>通过与OOCTW的集成，将原来的顺序VVP仿真器转变为分布式仿真引擎。分布式仿真引擎中的类显示在虚线矩形中。</p>
+</li>
+<li><p>Functor在Verilog中定义结构项，而Vthread定义行为块。<br>它们都继承自类LP，因此能够保存状态、回滚和恢复状态。</p>
+</li>
+<li><p>FunctorState和VthreadState实现了state接口，用于记录functor和vthread的状态。<br>VerilogEvent继承自类Event。</p>
+</li>
+<li><p>THREAD事件用于唤醒被阻塞的virtual thread，该virtual   thread正在等待事件发生，例如寄存器的值更改。EVAL和PROP用于在functor网络之间传播值更改.</p>
+</li>
+<li><p>INQUIRY事件用于检测位于远程主机中的函数值。例如，语句$DISPLAY($TIME，，a)中的变量‘a’可以位于远程处理器中。因此，virtual thread将发送INQUIRY消息以获取远程函数的值。远程处理器将在处理该事件后立即发回响应。</p>
+</li>
+<li><p>分区之后，模拟器调度THREAD event 来驱动分区ID与本地机器的主机ID匹配的virtual threads。这些virtual threads将向functors网络提供输入输入向量。模拟器一直在处理事件，直到它得到机器0广播的Finish事件。</p>
+</li>
+<li><p>不同机器中的每个模拟器都保持所有functors的拓扑，以便路由消息。但是，只有与本地主机具有相同ID的Functor才处于活动状态。被动functors仅用于路由消息。被动functors上不会发生求值。</p>
+</li>
+</ul>
+<p>##Optimization to distributed Verilog simulation engine：</p>
+<ul>
+<li>1.直接执行零延迟事件</li>
+<li>2.为了提高模拟器的效率，Icarus模拟器的设计者维护一个空闲事<br>件列表，以最大程度地减少对诸如malloc / free and new / delete之<br>类的系统调用的调用。每次模拟器计划一个新事件时，它首先检查<br>空闲列表。如果不为空，则新事件可以直接使用空闲列表头部占用<br>的内存空间。当模拟器完成事件处理后，它将事件指针放到空闲列<br>表中，而不是删除内存空间。</li>
+<li>3.空闲列表在分布式模拟器中继承。此外，创建了空闲状态列表以保存LP的状态。</li>
+</ul>
+<p>##Experiments：</p>
+<ul>
+<li>实验都是在8台计算机组成的网络上进行的，每台计算机都具有双奔腾III处理器和256M RAM。通过Myrinet（<a target="_blank" rel="noopener" href="http://www.myri.com)互连,这是一种高速网络,链路容量为每秒1gbit.机器都运行freebsd操作系统./">www.myri.com）互连，这是一种高速网络，链路容量为每秒1Gbit。机器都运行FreeBSD操作系统。</a> MPI用于在不同处理器之间传递消息。<br>仿真中使用的Verilog源文件描述了16位乘法器。它包括2416个门，虚拟线程将50个随机向量馈送到电路。我们假设导线上的单位门延迟和零传输延迟。仅显示了BFS分区的仿真结果，发现BFS具有最佳性能。<ul>
+<li>BFS分区算法可以减少通信。实验中收集的每个数据点是五个连续模拟运行的平均值。图中的计算机数量不包括仅包含vthread的计算机0。 1台计算机的仿真时间是不分区的DVS的运行时间。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>当使用2台机器时，仿真时间会更长。这是由负载不平衡和通信成本引起的。</li>
+<li>使用2台计算机时，分区算法只会将在machine1上处理的事件总数减少一小部分。但是，通信成本大量增加。可以通过消息数量乘以平均发送/接收成本来计算总通信成本。工作量的减少不足以补偿通信成本。因此，两台机器的总仿真时间比一台机器的时间更长。</li>
+<li>当计算机数量从3增加到5时，仿真时间不断减少。当使用5台计算机时，仿真速度提高了1.4。</li>
+</ul>
+<p>当前DVS的运行速度仍然比原始的Icarus Verilog仿真器慢。我们将其归因于VLSI仿真的精细粒度，较大的通信成本，负载不平衡以及Verilog源文件的电路尺寸较小。从表中可以看出，VLSI仿真的开销是处理事件的成本的2倍以上。</p>
+<p>##结论：</p>
+<ul>
+<li>成功创建了DVS，这是一种用于分布式Verilog仿真的面向对象的框架。它采用OOCTW作为同步后端，并利用了Icarus Verilog模拟器的开源代码。旨在灵活地用于将来的扩展和优化。</li>
+<li>DVS是第一个分布式Verilog模拟器。DVS在我们的初步实验中的性能是有希望的。可以应用许多优化来提高效率。从实验中可以明显看出，有效的负载平衡和分区算法是VLSI仿真成功的关键。</li>
+<li>由于每台机器仅占整个电路的一部分，因此解决了内存问题。更重要的是，分布式仿真可以利用电路本身内部的并发性，从而大大缩短了仿真时间。</li>
+</ul>
+<p>##一些未整理的概念</p>
+<ul>
+<li><p>理想的算法将是具有保守算法的存储需求以及乐观算法具有提取大量并行性的算法。<br>关键思想将是使用保守方法来同步一个块的所有门，并使用乐观方法来同步这些块。<br>提出一种新的混合算法，用于数字电路的异步并行仿真（该算法当然可以应用于其他类型的仿真）。该算法利用在不同处理器上运行的LP群集之间的CTW，并在群内使用顺序算法。我们还通过实验证明了该算法可以很好地扩展到具有较低计算粒度的大型模型的仿真。<br>我们的算法利用了群之间的Time warp和每个群中的顺序算法。我们认为，群Time warp比本地时间扭曲更适合于大规模细粒度仿真（例如数字逻辑仿真），原因有两个：首先，CTW利用了群中的LP共享相同地址空间这一事实，从而实现了它们的同步；其次，通过在群之间使用保守算法，本地时间扭曲可能会降低仿真模型的并行性。<br>我们的仿真系统中存在三种不同类型的消息：包含由仿真本身生成的事件的普通消息，取消错误计算所需的反消息以及执行分布式计算（如GVT计算）所需的控制消息估计，终止检测或收集统计信息。</p>
+</li>
+<li><p>在适当条件下工作的系统中，正常消息是通信开销的主要来源。反消息和控制消息的频率相对较低，但是它们的传输延迟远比普通消息重要。例如，反消息到达目的地所需的时间越长，系统可能执行的无用工作越多，因此取消该工作所花费的时间也就越长。同样，传递GVT令牌所需的时间越长，GVT估算值的准确性就越低，因此使化石采集机制的效率降低。因此，有必要为反消息和控制消息赋予比其他普通消息更高的优先级，以确保它们的快速传递，特别是在业务繁忙时。假定我们的仿真系统位于网络层上，该网络层在处理器之间提供可靠的通信通道，并且消息中的消息可以具有不同的优先级。此外，“集群时间扭曲”方法不假定通信系统具有FIFO属性。</p>
+</li>
+<li><p>群集环境负责调度群集中的LP，并且每个处理器调度其所有CE。使用最小的时间戳优先调度策略，因为它减少了回滚次数,确定了最小的时间戳优先策略的优势，甚至建议将其优先使用。结果，存储在CIQ和LP输入队列中的所有事件也都放入了优先级堆中。堆顶部的事件是时间戳最小的事件。因此，该事件的目标LP将是集群中要调度的下一个进程。<br>分布式系统中的时间处理对于理解和构建分布式系统至关重要。分布式仿真提出了一个特别令人烦恼的问题。在单处理器中，离散事件模拟中的事件存储在优先级队列中，并以最小时间戳的顺序进行模拟。这在单处理器中很容易完成，因为模拟中的所有事件都存储在内存中。但是，在分布式仿真中，事件分布在仿真所涉及的处理器之间。如果我们在LP上模拟一个事件，并且另一个LP时间戳较小的LP生成的事件随后实时到达，则会发生因果冲突。延迟到达很容易导致仿真结果不正确。在军事模拟中，重要的是按“瞄准”和“开火”两个事件的顺序执行。分布式仿真的中心问题是开发同步算法，该算法能够保持因果关系，并且可以以最小的开销进行维护。这种开销的形式可能是内存需求增加和执行时间增加。已经开发出两种主要的同步算法方法，保守算法和乐观算法。</p>
+</li>
+<li><p>在乐观算法中，LP维护一个输入队列。来自其他LP的所有事件都以其时间戳的升序存储在队列中，并且在处理时无需考虑具有较小时间戳的事件的到来。如果此类“散乱者”事件到达LP，则LP将在散乱者到达之前恢复其状态，并从该点继续进行仿真。此过程称为回滚。为了恢复以前的状态，LP必须在处理事件之前检查点其状态。还必须取消散乱者之后产生的消息。这可以通过使用所谓的反邮件来实现，该邮件可以取消或消除原始邮件。在本课程中，我们计划专注于分布式仿真核心的同步算法以及这些算法在实际问题中的应用。该课程将作为研讨会课程进行；我们将在每节课之前阅读论文并在课堂上进行剖析，以期了解他们的长处和短处。</p>
+</li>
+<li><p>使用ISCAS85中的乘法器电路分析了划分结果对分布式仿真性能的影响。<br>PDES中的LP可以同步或异步运行。在同步仿真中，所有过程都以相同的速度前进，即仿真中的所有LP在每个墙上时钟时间的瞬间具有相同的LVT。但是，由于缺乏并发性，这可能会限制PDES的性能。在某些LVT上，可能只有几个活动LP。异步仿真试图通过允许LP独立运行来解决此问题。因此，在相同的挂钟时间，LP将具有不同的LVT。尽管此解决方案可以利用更多的并发性，但它也带来了更多的问题，主要是LP之间的同步。为了产生正确的仿真结果，LP需要保证[FujOO]中定义的局部因果约束：<br>当且仅当每个LP以非递减的时间戳顺序处理事件时，离散事件模拟才由逻辑进程（LP）组成，这些逻辑进程仅通过交换带时间戳的消息进行交互，并遵守本地因果关系约束。同步算法分为保守算法和乐观算法。在保守算法[Cha81]中，LP被阻塞，直到它们可以确保没有模拟下一个事件的风险为止。因此，保守算法遭受死锁和阻塞行为的困扰。LVT。每个LP都有自己的本地虚拟时间，以跟踪LP当前的模拟时间。</p>
+</li>
+<li><p>为了在Time Warp中实现回滚机制，将以下数据结构添加到LP：<br>历史状态列表。历史状态列表用于存储LP的状态历史。每个状态及其相应的时间戳都会保存，以防将来LP需要在此时间戳恢复其状态，<br>输出消息列表。该LP发送的所有消息都保存在此列表中。它用于发送antimessage<br>输入消息列表。 LP收到的所有消息都保存在此列表中。如果此LP发生回滚，则可能需要再次重新执行一些外部消息。</p>
+</li>
+<li><p>回滚过程涉及三个主要步骤。每当LP收到违反本地因果关系约束的消息（称为散乱消息）时，LP都会启动回滚。<br>首先，LP需要以比历史状态列表中散乱者更小的最新时间戳来恢复状态。这样，LP的状态便符合本地因果关系约束。但是，LP可能会基于错误的事件执行发出消息。<br>在第二步中，LP需要检查输出消息列表以便找到这些错误消息，并发出它们相应的antimessage以纠正错误。最终，LP将从已还原的历史状态的时间戳记重新开始正常事件处理。<br>在回滚过程的第二步中，发出的反消息可能会导致目标LP进一步回滚。当LP收到反消息时，有三种可能的情况：1。相应的肯定消息尚未处理。这种情况很简单。我们只需要遍历输入消息列表来查找肯定消息并消灭它。 2.相应的肯定消息已被处理。在这种情况下，我们必须在接收到反消息之前将LP回滚到时间戳。在回滚过程中，可能会有更多的反消息生成并发送给其他LP。以这种递归方式，最终错误事件处理的效果将最终得到纠正。<br>相应的肯定消息尚未到达LP。仅当通信层不能保证消息发送和接收的FIFO顺序时，这种情况才有可能。在DVS中，由于我们使用可以保证FIFO消息顺序的MPICH，因此这种情况不存在。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/30/%E5%9F%BA%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8Fverilog%E4%BB%BF%E7%9C%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E9%A9%B1%E5%8A%A8%E5%88%92%E5%88%86%E7%AE%97%E6%B3%95/" rel="prev" title="基于分布式verilog仿真的设计驱动划分算法">
+                  <i class="fa fa-chevron-left"></i> 基于分布式verilog仿真的设计驱动划分算法
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
